@@ -1,0 +1,11 @@
+{
+  "name": "digital-identity",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "check": "node --check app.js && node --check content.js && node --check url-config.js && node --check server.js && node --check scripts/build-pages.mjs && node --test tests/url-config.test.js",
+    "build:pages": "node scripts/build-pages.mjs"
+  }
+}

@@ -1,0 +1,21 @@
+import {content} from '../content.js';
+import {validateProfileUrl,profilePageKey} from '../url-config.js';
+import {mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const url=validateProfileUrl(content.publicProfileUrl);
+const repo=process.env.GITHUB_REPOSITORY;
+const expected=process.env.EXPECTED_PROFILE_URL || (repo ? `https://${repo.split('/')[0]}.github.io/${repo.split('/')[1]}/` : '');
+if(!expected) throw new Error('EXPECTED_PROFILE_URL または GITHUB_REPOSITORY が必要です');
+if(profilePageKey(expected)!==profilePageKey(url.href))throw new Error('正式URLが公開先と一致しません');
+const root=new URL('../',import.meta.url);
+const out=new URL('../dist/',import.meta.url);
+// Fail rather than replacing an earlier candidate. Keep each candidate reviewable.
+await mkdir(out);
+const files=['index.html','style.css','app.js','content.js','url-config.js','.nojekyll','vendor/qrcode.js','vendor/LICENSE'];
+await mkdir(new URL('vendor/',out));
+for(const file of files) await copyFile(new URL(file,root),new URL(file,out));
+let html=await readFile(new URL('index.html',out),'utf8');
+html=html.replace('LOCAL PROTOTYPE · v0.1','DIGITAL IDENTITY · v0.1');
+html=html.replace('</head>',`<link rel="canonical" href="${url.href.replaceAll('&','&amp;').replaceAll('"','&quot;')}"></head>`);
+await writeFile(new URL('index.html',out),html);
+console.log('Pages candidate:',fileURLToPath(out),'QR target:',url.href,'files:',files.length);
