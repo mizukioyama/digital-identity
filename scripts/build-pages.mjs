@@ -11,12 +11,12 @@ const root=new URL('../',import.meta.url);
 const out=new URL('../dist/',import.meta.url);
 // Fail rather than replacing an earlier candidate. Keep each candidate reviewable.
 await mkdir(out);
-const files=['index.html','style.css','app.js','content.js','url-config.js','glass-lab.js','glass-lab.css','lab-settings.js','experience-config.js','experience-ui.js','experience.css','.nojekyll','vendor/qrcode.js','vendor/LICENSE'];
+const files=['index.html','style.css','app.js','content.js','url-config.js','glass-lab.js','glass-lab.css','lab-settings.js','experience-config.js','experience-ui.js','experience.css','atmosphere.css','.nojekyll','vendor/qrcode.js','vendor/LICENSE'];
 await mkdir(new URL('vendor/',out));
 for(const file of files) await copyFile(new URL(file,root),new URL(file,out));
 let html=await readFile(new URL('index.html',out),'utf8');
 const {version}=JSON.parse(await readFile(new URL('package.json',root),'utf8'));
-html=html.replace(/LOCAL (?:PROTOTYPE|EXPERIENCE) · v[\d.]+/,'DIGITAL IDENTITY · v'+version.replace(/\.0$/,''));
+html=html.replace(/LOCAL (?:PROTOTYPE|EXPERIENCE|ATMOSPHERE) · v[\d.]+/,'DIGITAL IDENTITY · v'+version.replace(/\.0$/,''));
 // Avoid mixing a cached previous app with the new entry document.
 html=html.replace(/((?:src|href)="\.\/[^"]+\.(?:css|js))"/g,`$1?v=${version}"`);
 html=html.replace('</head>',`<link rel="canonical" href="${url.href.replaceAll('&','&amp;').replaceAll('"','&quot;')}"></head>`);

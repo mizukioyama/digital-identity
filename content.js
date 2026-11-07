@@ -48,7 +48,7 @@ export const content = {
       }
   ],
   links: [
-    {title:'Instagram', detail:'Works & daily fragments', url:'https://www.instagram.com/1998_m.oyama/'},
+    {title:'Instagram', detail:'Works & daily fragments', url:'https://www.instagram.com/o.mizuki_1998/'},
     {title:'Portfolio Website', detail:'Selected works & artist statement', url:'https://mizukioyama.github.io/website/'},
     {title:'ゆらゆら', detail:'企画グループ展 / Group exhibition', url:'https://mizukioyama.github.io/yurayura/'}
   ]

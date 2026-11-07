@@ -76,6 +76,11 @@ for(let family=0;family<2;family++){
     curves.push({family,j,cos:Math.cos(angle),sin:Math.sin(angle)});
   }
 }
+// Reuse projection buffers; sort strokes by depth without per-frame Path2D allocation.
+const drawArcs=[];
+for(const curve of curves){curve.arcs=Array.from({length:4},()=>{const segment={points:new Float32Array((sphereQuarter+1)*2),depth:0};drawArcs.push(segment);return segment})}
+const latitudes=curves.filter(c=>c.family===0);
+const highlights=(low?[.53]:[.29,.53,.73]).map((fraction,i)=>({curve:latitudes[Math.floor(latitudes.length*fraction)],longitude:Math.PI*(i+2)/(low?7:10),offset:i*2.1}));
 document.body.dataset.renderQuality=low?'reduced':'full';
 function resize(){
   width=innerWidth;height=window.visualViewport?.height||innerHeight;
@@ -90,9 +95,9 @@ function draw(now){
   const elapsed=previous?Math.min(now-previous,80):0;previous=now;
   if(moving())phase+=elapsed*(developerMode?(settings.motion==='dynamic'?.00011:.000035):experience.phaseRate);
   ctx.clearRect(0,0,width,height);
-  const radius=Math.min(width*.65,height*.44,405)*(1+(developerMode?.012:.024)*Math.sin(phase*(developerMode?.83:2.1))+.008*Math.sin(phase*(developerMode?.39:3.7)));
+  const radius=Math.min(width*.69,height*.46,420)*(1+(developerMode?.012:.024)*Math.sin(phase*(developerMode?.83:2.1))+.008*Math.sin(phase*(developerMode?.39:3.7)));
   const cx=width*(.58+(developerMode?0:.018*Math.sin(phase*1.7))),cy=height*(.48+(developerMode?0:.012*Math.sin(phase*2.3))),light=settings.light/100+(developerMode?0:.045*Math.sin(phase*4.4));
-  const yaw=phase+.13*Math.sin(phase*.37),pitch=.57+.12*Math.sin(phase*.61);
+  const yaw=phase*.86+.19*Math.sin(phase*.37),pitch=.53+.16*Math.sin(phase*.61);
   const cosYaw=Math.cos(yaw),sinYaw=Math.sin(yaw),cosPitch=Math.cos(pitch),sinPitch=Math.sin(pitch);
   const glow=ctx.createLinearGradient(cx-radius,cy-radius,cx+radius,cy+radius);
   glow.addColorStop(0,`rgba(131,95,173,${.24+light*.30})`);
@@ -105,7 +110,7 @@ function draw(now){
     const rCos=radius*curve.cos,rSin=radius*curve.sin;
     const life=(lab.style==='b'||lab.style==='c'||lab.style==='d')?(developerMode?.009:.018)*(settings.organic/50)*Math.sin(phase*8.7+curve.j*.51):0;
     for(let arc=0;arc<4;arc++){
-      ctx.beginPath();let depth=0;
+      const segment=curve.arcs[arc];let depth=0;
       for(let k=0;k<=sphereQuarter;k++){
         const t=samples[arc*sphereQuarter+k];
         // Angle-addition identities remove repeated per-vertex trigonometry.
@@ -116,12 +121,27 @@ function draw(now){
         const rx=x*cosYaw-z*sinYaw,rz=x*sinYaw+z*cosYaw;
         const py=y*cosPitch-rz*sinPitch,pz=y*sinPitch+rz*cosPitch;
         depth+=pz/radius;
-        if(k===0)ctx.moveTo(cx+rx,cy+py);else ctx.lineTo(cx+rx,cy+py);
+        segment.points[k*2]=cx+rx;segment.points[k*2+1]=cy+py;
       }
-      const front=(depth/(sphereQuarter+1)+1)/2;
-      const depthWeight=lab.style==='current'?Math.max(0,front):Math.pow(Math.max(0,front),1.35);
-      ctx.globalAlpha=.23+depthWeight*.65;ctx.lineWidth=.55+depthWeight*.36;ctx.stroke();
+      segment.depth=depth/(sphereQuarter+1);
     }
+  }
+  drawArcs.sort((a,b)=>a.depth-b.depth);
+  for(const segment of drawArcs){
+    const front=Math.max(0,Math.min(1,(segment.depth+1)/2));
+    ctx.globalAlpha=.16+front*.78;ctx.lineWidth=.45+front*.55;
+    ctx.beginPath();for(let k=0;k<=sphereQuarter;k++){const x=segment.points[k*2],y=segment.points[k*2+1];if(k===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+  }
+  // Three sparse pulses cross meridians and move a short distance along latitude curves.
+  for(const node of highlights){
+    const q=phase*2.4+node.offset,travel=.18*Math.sin(q),t=node.longitude+travel,curve=node.curve;
+    const wobble=1+.018*(settings.organic/50)*Math.sin(phase*8.7+curve.j*.51)*Math.cos(t*2)+.015*Math.sin(t*3+phase*1.37+curve.j*.3)+.008*Math.cos(t*5-phase*.71+curve.j*.7);
+    const x=radius*curve.cos*Math.cos(t)*wobble,y=radius*curve.sin+.016*radius*Math.sin(t*2+phase*.53+curve.j*.4),z=radius*curve.cos*Math.sin(t);
+    const rx=x*cosYaw-z*sinYaw,rz=x*sinYaw+z*cosYaw,py=y*cosPitch-rz*sinPitch,pz=y*sinPitch+rz*cosPitch;
+    const pulse=Math.pow((1+Math.cos(q))/2,3)*Math.max(0,pz/radius);
+    if(pulse<.015)continue;
+    const px=cx+rx,yy=cy+py,size=low?4:6;
+    const gleam=ctx.createRadialGradient(px,yy,0,px,yy,size);gleam.addColorStop(0,`rgba(255,255,255,${pulse*.85})`);gleam.addColorStop(.25,`rgba(143,166,228,${pulse*.38})`);gleam.addColorStop(1,'rgba(143,166,228,0)');ctx.globalAlpha=1;ctx.fillStyle=gleam;ctx.beginPath();ctx.arc(px,yy,size,0,Math.PI*2);ctx.fill();
   }
   ctx.globalAlpha=1;
   if(developerMode)lab.paint(canvas,width,height,phase,settings,low,moving());
