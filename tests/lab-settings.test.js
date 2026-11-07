@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{restoreSettings,labDefaults}from'../lab-settings.js';
+const defaults={transparency:45,light:35,motion:'subtle',...labDefaults};
+test('legacy settings preserve existing fields and gain safe lab defaults',()=>{assert.deepEqual(restoreSettings({transparency:65,light:55,motion:'off'},defaults),{...defaults,transparency:65,light:55,motion:'off'})});
+test('invalid values recover and finite out-of-range values clamp',()=>{assert.deepEqual(restoreSettings({transparency:-1,light:200,motion:'unknown',refraction:NaN,organic:'80',unknown:99},defaults),{...defaults,transparency:15,light:100});for(const value of[null,[],42,'oops'])assert.deepEqual(restoreSettings(value,defaults),defaults);assert.deepEqual(restoreSettings({refraction:500,organic:-20},defaults),{...defaults,refraction:100,organic:0})});

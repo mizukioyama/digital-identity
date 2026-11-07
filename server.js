@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {resolve,relative,isAbsolute,extname} from 'node:path';
 const root=fileURLToPath(new URL('.',import.meta.url));
-const port=Number(process.env.PORT || 4177);
+const port=Number(process.env.PORT || 4178);
 const base=process.env.PREVIEW_BASE || '/';
 if(!base.startsWith('/') || !base.endsWith('/')) throw new Error('PREVIEW_BASE must start/end with /');
 createServer(async(req,res)=>{try{

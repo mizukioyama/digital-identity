@@ -1,0 +1,17 @@
+/* Isolated v0.3 styles. Current inherits every v0.2 material/layout rule. */
+.glass-optics{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;pointer-events:none;z-index:0;display:none}
+.glass[data-glass]:not([data-glass=current]) #profile-screen,.glass[data-glass]:not([data-glass=current]) #qr-screen{position:relative;z-index:1}
+.glass[data-glass=a],.glass[data-glass=c],.glass[data-glass=d]{background:rgb(255 255 255 / calc(var(--glass-alpha)*.73));backdrop-filter:blur(5px) saturate(1.12);border-color:#fff;box-shadow:0 30px 70px #3534591c,0 5px 14px #3b3a6514,inset 2px 2px 3px #fff,inset -2px -3px 5px #6f75a43b;animation:appear .7s ease-out both}
+.glass[data-glass=a] .glass-optics,.glass[data-glass=c] .glass-optics,.glass[data-glass=d] .glass-optics{display:block}
+.glass[data-glass]:not([data-glass=current]):after{inset:3px;border:2px solid transparent;background:linear-gradient(var(--lab-reflection,45deg),#fff 3%,#c2e0f780 21%,#f5cbea90 38%,#ffffff20 53%,#94b8da60 72%,#fff 94%) border-box;mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);mask-composite:exclude;box-shadow:none}
+.glass[data-glass=a]:before,.glass[data-glass=c]:before,.glass[data-glass=d]:before{background:radial-gradient(ellipse at var(--x,70%) var(--y,10%),rgb(255 255 255 / calc(var(--light)*1.1)),transparent 46%),linear-gradient(var(--lab-reflection,45deg),#e5d3f012,transparent 35%,#cee8fa20 80%,#fff3)}
+.glass[data-glass=b],.glass[data-glass=c],.glass[data-glass=d]{border-radius:var(--lab-radius,38px 30px 45px 25px);animation:appear .7s ease-out both}
+.glass[data-glass=b]{background:rgb(255 255 255 / calc(var(--glass-alpha)*.94));box-shadow:0 33px 75px #4c427a1c,0 6px 16px #4f6c7e10,inset 1px 2px 5px #fffe,inset -1px -2px 5px #bda6c439}
+.glass[data-glass=b]:before{background:radial-gradient(ellipse at var(--x,65%) var(--y,15%),rgb(255 255 255 / calc(var(--light)*.9)),transparent 55%),linear-gradient(var(--lab-reflection,45deg),rgb(var(--violet) / calc(var(--light)*.19)),transparent 45%,rgb(var(--amber) / calc(var(--light)*.15)))}
+.glass[data-glass=b] .ripple,.glass[data-glass=c] .ripple,.glass[data-glass=d] .ripple{border-width:2px;box-shadow:0 0 14px #e0d8ef70}
+body[data-render-quality=reduced] .glass-optics{display:none!important}
+body.still .glass[data-glass]:not([data-glass=current]){--lab-radius:38px 32px 44px 28px!important;--lab-reflection:45deg!important}
+@media(prefers-reduced-motion:reduce){.glass[data-glass]:not([data-glass=current]){--lab-radius:38px 32px 44px 28px!important;--lab-reflection:45deg!important}}
+
+/* D uses B breathing with a narrow, low-frequency optical rim. */
+.glass[data-glass=d]{background:rgb(255 255 255 / calc(var(--glass-alpha)*.82));backdrop-filter:blur(7px) saturate(1.12)}

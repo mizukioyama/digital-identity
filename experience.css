@@ -1,0 +1,26 @@
+/* Normal experience: stable reading surface, motion belongs to the background. */
+body.experience .glass{border-radius:38px 32px 44px 30px;animation:appear .6s ease-out both;backdrop-filter:blur(7px) saturate(1.12);background:rgb(255 255 255 / var(--glass-alpha));box-shadow:0 24px 60px #35345919,inset 1px 2px 3px #fffe,inset -1px -2px 4px #988fb933}
+body.experience .glass:after{animation:edge-light 8.7s ease-in-out infinite alternate}
+body.experience .glass-optics{display:none!important}
+body.experience .ambient-light:before{animation-duration:26s}
+body.experience .glint{animation-duration:16s;opacity:.8}
+body.experience .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;border:0;padding:0 0 12px}
+body.experience .glass-control{position:relative;isolation:isolate;overflow:hidden;border:1px solid #ffffffc7;border-radius:13px;background:linear-gradient(135deg,#ffffff80,#ffffff29 65%,#dedee83d);box-shadow:inset 1px 1px 1px #fffffff0,inset -1px -1px 2px #70799922,0 3px 8px #3a465809;transition:transform 110ms ease-out,background-color 160ms ease,box-shadow 160ms ease;touch-action:manipulation}
+body.experience .tabs button{justify-content:space-between;align-items:center;opacity:1;min-height:42px;padding:10px 13px;color:var(--muted);letter-spacing:1.6px}
+body.experience .tabs button[aria-selected=true]{color:var(--ink);border-color:#fff;box-shadow:inset 1px 2px 3px #fff,0 4px 12px #344e5e12;background:linear-gradient(135deg,#ffffffd9,#ffffff75)}
+body.experience #links a{margin:0 0 11px;padding:16px;border-radius:16px;min-height:70px;gap:12px}
+body.experience .text-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;white-space:nowrap}
+body.experience .qr-actions{gap:9px;flex-wrap:wrap}
+body.experience .qr-actions button{min-height:44px;flex:1 1 120px;padding:11px 12px;font-size:12px}
+body.experience #qr-frame{box-shadow:0 7px 22px #38445b0c}
+body.experience .glass-control:focus-visible{outline:2px solid #225d51;outline-offset:3px;box-shadow:0 0 0 3px #fff9,inset 1px 1px 2px #fff}
+body.experience .glass-control.is-pressed,body.experience .glass-control:active{transform:translateY(1px) scale(.978);background-color:#ffffff9c;box-shadow:inset 0 2px 5px #53607524,0 1px 3px #fff6}
+body.experience .glass-control .control-wave{position:absolute;width:14px;height:14px;margin:0;border:1px solid #fffc;border-radius:50%;background:radial-gradient(circle,#ffffff80,transparent 65%);pointer-events:none;z-index:-1;transform:translate(-50%,-50%);animation:control-wave 380ms ease-out forwards}
+@media(hover:hover) and (pointer:fine){body.experience .glass-control:hover{background-color:#ffffff80;box-shadow:inset 1px 2px 3px #fff,0 5px 15px #344e5e14}}
+@keyframes edge-light{from{opacity:.45}to{opacity:.9}}
+@keyframes control-wave{to{transform:translate(-50%,-50%) scale(18);opacity:0}}
+@media(max-width:600px){body.experience #profile-screen{padding:24px 22px 16px}body.experience .card-bottom{gap:6px}body.experience .card-bottom .text-link{padding:8px 9px;font-size:9px}}
+@media(max-height:700px) and (max-width:600px){body.experience #profile-screen{padding:14px 16px 12px}body.experience .tabs{padding-bottom:5px}body.experience .tabs button{min-height:36px;padding:8px 10px}body.experience .card-bottom .text-link{padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){body.experience *,body.experience *:before,body.experience *:after{animation:none!important;transition:none!important}body.experience .glass-control:active{transform:none}}
+body.experience.still *,body.experience.still *:before,body.experience.still *:after{animation:none!important;transition:none!important}
+body.experience.still .glass-control:active{transform:none}

@@ -1,27 +1,14 @@
-# Digital Identity v0.2 — Local design review
+# Digital Identity v0.3
 
 Mizuki Oyama / 小山瑞樹 — Abstract Artist / Web Designer.
 Minimal Editorial × Living Glass × Organic Line Sphere.
 
-## Local preview
-Node.js 24: `npm run dev`, then open http://127.0.0.1:4177 .
-No package installation, CDN, external fonts, image assets, API or analytics are needed.
-Edit profile and approved links in `content.js`. Appearance defaults remain Transparency45%, Light35%, MotionSubtle. Browser settings persist locally and respect reduced-motion.
+Public profile: https://mizukioyama.github.io/digital-identity/
+QR screen: https://mizukioyama.github.io/digital-identity/#qr
 
-## Publication
-Planned public profile: https://mizukioyama.github.io/digital-identity/ . This repository candidate does not prove publication.
-Run `npm run check`. Build with `GITHUB_REPOSITORY=mizukioyama/digital-identity npm run build:pages`.
-Only the 8 allowlisted application/license files are copied to `dist/`. An existing dist is preserved rather than overwritten.
-After explicit owner approval, configure Pages Source to GitHub Actions and manually run the prepared workflow on the reviewed main commit with confirm_publication=true.
-The workflow does not publish automatically on push. The public URL and content.publicProfileUrl must match.
-After deployment, verify the public URL, phone camera QR reading, links and actual mobile device behavior. Appearance is provisional.
+The normal experience uses a lightweight B-based material with fixed reading geometry, a moving Canvas sphere, CSS light and glass controls. Appearance is hidden but retained behind `?lab=1`. `?motion=off` allows static use; OS Reduced Motion takes priority. Old saved settings are preserved and ignored in the normal experience. Profile and links remain in content.js; preview experience constants are in experience-config.js.
 
-QR generator: Kazuhiko Arase, MIT; original license is retained in vendor/LICENSE.
+Node24, no installation required: npm run dev. Run npm run check; create a fresh build with GITHUB_REPOSITORY=mizukioyama/digital-identity npm run build:pages. Existing dist is never overwritten. Only14 allowlisted application/license files are built. No image assets, external fonts, CDN, API, analytics or paid dependencies required.
 
-
-## v0.2 review
-The expanded profile is managed by section in `content.js`. The existing `.panel-scroll` is the only profile reading scrollport; identity and tabs stay fixed.
-Living Glass uses CSS light/rim layers and the existing Canvas sphere with depth and layered motion. Appearance defaults remain 45% / 35% / Subtle.
-Production remains v0.1 at commit b0998339945e4477a79906580191260d2e808fb8. This working tree is local and has not been pushed or deployed.
-Review report: `reports/v02-20261106/REPORT.md`. Before/after gallery: `reports/v02-20261106/screenshots/gallery.html`.
-Physical Android/iPhone, actual OS zoom, sensor and camera validation remain open. A new explicit approval is required before another publication.
+Pages publication is manual and requires owner approval. Reports, screenshots, local archives and device diagnostics are excluded from Git/publication. Android experience acceptance for v0.3 is pending; browser checks do not establish device FPS, heat or battery performance.
+QR generator: Kazuhiko Arase, MIT. License retained in vendor/LICENSE.
