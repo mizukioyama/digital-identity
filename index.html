@@ -2,6 +2,7 @@
 <html lang="ja">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#efeee8"><meta name="description" content="Mizuki Oyama / 小山瑞樹 — Abstract Artist / Web Designer"><title>Mizuki Oyama — Digital Identity</title><link rel="stylesheet" href="./style.css"><script defer src="./vendor/qrcode.js"></script><script type="module" src="./app.js"></script></head>
 <body>
+<div class="ambient-light" aria-hidden="true"></div>
 <canvas id="sphere" aria-hidden="true"></canvas>
 <header><a class="wordmark" href="#profile" aria-label="プロフィールへ">MO<span>Digital Identity</span></a><button id="settings-open" class="icon" aria-label="デザイン設定を開く" aria-haspopup="dialog">⚙</button></header>
 <main>
@@ -11,12 +12,12 @@
 <section id="profile-screen">
 <div class="intro"><span class="eyebrow">A small point of connection.</span><h1 id="name"></h1><p class="jp" id="jp"></p><p class="role" id="role"></p></div>
 <div class="tabs" role="tablist" aria-label="プロフィール内容"><button role="tab" id="profile-tab" aria-selected="true" aria-controls="profile-panel" tabindex="0">PROFILE <span>01</span></button><button role="tab" id="links-tab" aria-selected="false" aria-controls="links-panel" tabindex="-1">LINKS <span>02</span></button></div>
-<div class="panel-scroll"><div id="profile-panel" role="tabpanel" aria-labelledby="profile-tab" tabindex="0"><div id="bio"></div><p class="philosophy" id="philosophy"></p></div><div id="links-panel" role="tabpanel" aria-labelledby="links-tab" tabindex="0" hidden><div id="links"></div></div></div>
-<div class="card-bottom"><span><i></i> Open to new connections</span><a href="#qr" class="text-link">Show my QR <span>↗</span></a></div>
+<div class="panel-scroll"><div id="profile-panel" role="tabpanel" aria-labelledby="profile-tab" tabindex="0"><div id="bio"></div></div><div id="links-panel" role="tabpanel" aria-labelledby="links-tab" tabindex="0" hidden><div id="links"></div></div></div>
+<div class="card-bottom"><span><i></i> Open to new connections</span><a href="#qr" class="text-link" aria-label="Show my QR ↗"><span class="qr-label-full">Show my QR</span><span class="qr-label-short" aria-hidden="true">QR</span> <span aria-hidden="true">↗</span></a></div>
 </section>
 <section id="qr-screen" hidden><div class="qr-heading"><span class="eyebrow">LET’S STAY CONNECTED</span><h2>Scan to connect.</h2><p>Mizuki Oyama / 小山瑞樹</p></div><div id="qr-frame"><div id="qr" aria-label="プロフィールURLのQRコード"></div></div><p id="qr-notice" class="notice"></p><div class="qr-actions"><button id="copy">URLをコピー</button><button id="tilt" aria-pressed="false">傾き連動をON</button></div><a href="#profile" class="text-link">← プロフィールへ</a></section>
 </section>
-<footer><span>NATURE INSPIRES. CONNECTIONS GROW.</span><span>LOCAL PROTOTYPE · v0.1</span></footer>
+<footer><span>NATURE INSPIRES. CONNECTIONS GROW.</span><span>LOCAL PROTOTYPE · v0.2</span></footer>
 </main>
 <dialog id="settings" aria-labelledby="settings-title"><div class="dialog-top"><div><span class="eyebrow">MAKE IT YOURS</span><h2 id="settings-title">Living settings</h2></div><button id="settings-close" class="icon" aria-label="設定を閉じる">×</button></div><label for="transparency">Glass Transparency <output id="transparency-value"></output></label><input type="range" min="15" max="80" id="transparency"><label for="motion">Motion</label><select id="motion"><option value="off">OFF</option><option value="subtle">Subtle</option><option value="dynamic">Dynamic</option></select><label for="light">Light Intensity <output id="light-value"></output></label><input type="range" min="0" max="100" id="light"><p class="notice">OSの「動きを減らす」設定を優先します。QRと文字のコントラストは変わりません。</p><button id="reset">初期設定に戻す</button><p id="storage-notice" role="status"></p></dialog>
 <p id="status" role="status" aria-live="polite"></p>

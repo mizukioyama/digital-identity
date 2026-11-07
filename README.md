@@ -1,4 +1,4 @@
-# Digital Identity v0.1
+# Digital Identity v0.2 — Local design review
 
 Mizuki Oyama / 小山瑞樹 — Abstract Artist / Web Designer.
 Minimal Editorial × Living Glass × Organic Line Sphere.
@@ -17,3 +17,11 @@ The workflow does not publish automatically on push. The public URL and content.
 After deployment, verify the public URL, phone camera QR reading, links and actual mobile device behavior. Appearance is provisional.
 
 QR generator: Kazuhiko Arase, MIT; original license is retained in vendor/LICENSE.
+
+
+## v0.2 review
+The expanded profile is managed by section in `content.js`. The existing `.panel-scroll` is the only profile reading scrollport; identity and tabs stay fixed.
+Living Glass uses CSS light/rim layers and the existing Canvas sphere with depth and layered motion. Appearance defaults remain 45% / 35% / Subtle.
+Production remains v0.1 at commit b0998339945e4477a79906580191260d2e808fb8. This working tree is local and has not been pushed or deployed.
+Review report: `reports/v02-20261106/REPORT.md`. Before/after gallery: `reports/v02-20261106/screenshots/gallery.html`.
+Physical Android/iPhone, actual OS zoom, sensor and camera validation remain open. A new explicit approval is required before another publication.

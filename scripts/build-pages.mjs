@@ -15,7 +15,8 @@ const files=['index.html','style.css','app.js','content.js','url-config.js','.no
 await mkdir(new URL('vendor/',out));
 for(const file of files) await copyFile(new URL(file,root),new URL(file,out));
 let html=await readFile(new URL('index.html',out),'utf8');
-html=html.replace('LOCAL PROTOTYPE · v0.1','DIGITAL IDENTITY · v0.1');
+const {version}=JSON.parse(await readFile(new URL('package.json',root),'utf8'));
+html=html.replace(/LOCAL PROTOTYPE · v[\d.]+/,'DIGITAL IDENTITY · v'+version.replace(/\.0$/,''));
 html=html.replace('</head>',`<link rel="canonical" href="${url.href.replaceAll('&','&amp;').replaceAll('"','&quot;')}"></head>`);
 await writeFile(new URL('index.html',out),html);
 console.log('Pages candidate:',fileURLToPath(out),'QR target:',url.href,'files:',files.length);
